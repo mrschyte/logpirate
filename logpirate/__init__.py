@@ -69,7 +69,11 @@ def make_har_entry(item):
     )
 
 def make_har(root):
-    entries = [make_har_entry(item) for item in root.item]
+    entries = []
+    for item in root.item:
+        # only process entries which have both a request and a response
+        if item.request.text is not None and item.response.text is not None:
+            entries.append(make_har_entry(item))
     return HAR(
         version='1.2',
         creator=HARCreator(
