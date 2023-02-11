@@ -133,7 +133,7 @@ class HAREntry:
             'timings': self.timings.json_data(),
         }
         if self.comment is not None:
-            data.comment = self.comment
+            data['comment'] = self.comment
         return data
 
 @dataclass
