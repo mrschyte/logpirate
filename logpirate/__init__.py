@@ -27,8 +27,8 @@ def make_har_entry(item):
     url = urllib.parse.urlparse(request.path)
     query = urllib.parse.parse_qs(url.query.decode('latin1'))
 
-    mimeType = get_header_value(response, b'content-type', b''),
-    redirectURL = get_header_value(response, b'location', b''),
+    mimeType = get_header_value(response, b'content-type', b'')
+    redirectURL = get_header_value(response, b'location', b'')
 
     return HAREntry(
         startedDateTime=dateutil.parser.parse(item.time.text),
