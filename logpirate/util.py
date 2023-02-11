@@ -1,5 +1,5 @@
 from types import GeneratorType
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 def flatten(xs: List[Any]) -> List[Any]:
     for x in xs:
@@ -9,5 +9,7 @@ def flatten(xs: List[Any]) -> List[Any]:
         else:
             yield x
 
-def decode_header(header: bytes) -> str:
-    return header.decode('ascii')
+def decode_header(header: Union[bytes, str]) -> str:
+    if type(header) == bytes:
+        return header.decode('latin1')
+    return header

@@ -25,7 +25,7 @@ def make_har_entry(item):
     response = Response.parse(response_bytes)
 
     url = urllib.parse.urlparse(request.path)
-    query = urllib.parse.parse_qs(url.query)
+    query = urllib.parse.parse_qs(url.query.decode('latin1'))
 
     mimeType = get_header_value(response, b'content-type', b''),
     redirectURL = get_header_value(response, b'location', b''),
