@@ -1,6 +1,7 @@
 from dataclasses import dataclass 
 from typing import Any, Dict, List
 
+import logging
 import re
 
 @dataclass
@@ -21,21 +22,27 @@ class Request:
         for line in lines:
             if line == b'' or line == None:
                 break
-            name, value = re.split(r'\s*:\s*'.encode('ascii'), line, 1)
-            name = name.lower()
-            if name not in headers:
-                headers[name] = []
-            headers[name].append(value)
+            try:
+                name, value = re.split(r'\s*:\s*'.encode('ascii'), line, 1)
+                name = name.lower()
+                if name not in headers:
+                    headers[name] = []
+                headers[name].append(value)
+            except ValueError:
+                logging.warning('Ignoring invalid header value (%s)', line)
 
         cookies = {}
 
         if b'cookie' in headers:
             for header in headers[b'cookie']:
                 for cookie in re.split(r'\s*;\s*'.encode('ascii'), header):
-                    name, value = re.split(r'\s*=\s*'.encode('ascii'), cookie, 1)
-                    if name not in cookies:
-                        cookies[name] = []
-                    cookies[name].append(value)
+                    try:
+                        name, value = re.split(r'\s*=\s*'.encode('ascii'), cookie, 1)
+                        if name not in cookies:
+                            cookies[name] = []
+                        cookies[name].append(value)
+                    except ValueError:
+                        logging.warning('Ignoring invalid cookie value (%s)', cookie)
 
         body = b''.join(lines)
 

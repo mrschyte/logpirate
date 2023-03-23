@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "logpirate"
-version = "0.1.0"
+version = "0.1.1"
 description = "Convert BurpSuite logs to HAR"
 authors = ["Peter Kasza <peter.kasza@itinsight.hu>"]
 license = "GPLv3"
